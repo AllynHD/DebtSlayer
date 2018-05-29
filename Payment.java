@@ -26,8 +26,8 @@ public class Payment {
         this.newBalance = debt.getBalance() + interestAmount - debt.getPayment();
     }
 
-    public Debt makePayment(Debt debt) {
+    /*public Debt makePayment(Debt debt) {
         Debt newDebt = new Debt;
         newDebt.setBalance();
-    }
+    }*/
 }

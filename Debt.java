@@ -16,7 +16,7 @@ public class Debt {
         //this();
         this.balance = balance;
         this.interestRate = interestRate;
-        this.monthlyPayment = monthlyPayment;
+        this.monthlyPayment = payment;
 
         //add userId after learning how to session
     }
@@ -53,25 +53,50 @@ public class Debt {
     public void setInterestAmount(Debt debt) { //Can add term variability here eventually
         interestAmount = debt.getInterestRate() * debt.getBalance() / 12;}
 
-    private ArrayList<Payment> seeAllPayments(Debt debt) {
+    protected Debt seeAllPayments(Debt debt) { //ArrayList<Payment> for return type
         int numPayments = 0;
         while (debt.getPayment() < debt.getBalance() * (1 + debt.getInterestRate()/12)) {
             makeFullPayment (debt); //Add payment to payment list as final step, return
             numPayments++;} //numPayments in Payment class or in Debt class?
         makeFinalPayment(debt); //**
-        return paymentList;
+        return debt;
+
+        //return paymentList;
     }
 
-    private Debt makeFullPayment(Debt debt){
+    protected Debt makeFullPayment(Debt debt){ //could do a "make payment" method, then call each of these where they differ.
         double newBalance;
         setInterestAmount(debt);
-        newBalance = this.balance + interestAmount - this.monthlyPayment;
+        newBalance = balance + interestAmount - monthlyPayment;
         totalInterest += interestAmount;
         totalPaid += monthlyPayment;
+        balance = newBalance;
+        System.out.println(debt.toString());
+        return debt;
+    }
 
+    protected Debt makeFinalPayment(Debt debt){
+        double transfer;
+        setInterestAmount(debt);
+        this.balance = this.balance + interestAmount;
+        transfer = this.monthlyPayment - this.balance;
+        this.monthlyPayment = this.balance;
+        totalInterest += interestAmount;
+        totalPaid += monthlyPayment;
+        this.balance = 0;
+        System.out.println(debt.toString());
+        return debt;
+    }
 
-
-
-
+    @Override
+    public String toString() {
+        return "Debt{" +
+                "balance=" + balance +
+                ", interestRate=" + interestRate +
+                ", monthlyPayment=" + monthlyPayment +
+                ", totalPaid=" + totalPaid +
+                ", totalInterest=" + totalInterest +
+                ", interestAmount=" + interestAmount +
+                '}';
     }
 }
