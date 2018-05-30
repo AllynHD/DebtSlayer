@@ -1,19 +1,32 @@
 package com.company;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class Main {
 
     public static void main(String[] args) {
 	// write your code here
 
-        Debt debt = new Debt(500, .25, 175);
-        debt.makeFullPayment(debt);
-        debt.makeFullPayment(debt);
-        debt.makeFinalPayment(debt);
+        ArrayList<Debt> listOfDebts = new ArrayList<>();
 
-        debt.setBalance(500);
-        debt.setInterestRate(.25);
-        debt.setPayment(175);
-        System.out.println(debt.toString());
-        debt.seeAllPayments(debt);
+        Debt debt1 = new Debt(500, .25, 175); listOfDebts.add(debt1);
+        Debt debt2 = new Debt(600, .25, 175); listOfDebts.add(debt2);
+        Debt debt3 = new Debt(150, .2, 175); listOfDebts.add(debt3);
+        Debt debt4 = new Debt(500, .25, 130); listOfDebts.add(debt4);
+
+        System.out.println(listOfDebts);
+        System.out.println("****");
+
+        ListOfDebts list = new ListOfDebts();
+        HashMap<Boolean, ArrayList<Debt>> newMap = new HashMap<>();
+        newMap.put(true, listOfDebts);
+
+        list.payAllDebtsInFull(newMap);
+
+        for (Debt debt : listOfDebts) {
+            System.out.println(debt);
+        }
+
     }
 }

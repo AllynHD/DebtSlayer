@@ -71,7 +71,6 @@ public class Debt {
         totalInterest += interestAmount;
         totalPaid += monthlyPayment;
         balance = newBalance;
-        System.out.println(debt.toString());
         return debt;
     }
 
@@ -84,7 +83,6 @@ public class Debt {
         totalInterest += interestAmount;
         totalPaid += monthlyPayment;
         this.balance = 0;
-        System.out.println(debt.toString());
         return debt;
     }
 
