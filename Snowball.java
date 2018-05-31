@@ -7,7 +7,7 @@ public class Snowball {
 
     public static ArrayList<Debt> growSnowball(ArrayList<Debt> list) {
 
-        list.sort(Debt.DebtBalanceComparator);
+        list.sort(Debt.DebtRateComparator);
         HashMap<Boolean, ArrayList<Debt>> snowMap = new HashMap();
         snowMap.put(true, list);
         list = ListOfDebts.payAllDebtsInFull(snowMap);

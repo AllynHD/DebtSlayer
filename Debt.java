@@ -122,6 +122,16 @@ public class Debt {
         }
     };
 
+    public static final Comparator<Debt> DebtRateComparator = new Comparator<Debt>() {
+        @Override
+        public int compare(Debt d1, Debt d2) {
+            double DebtRate1 = d1.getInterestRate();
+            double DebtRate2 = d2.getInterestRate();
+
+            return (int) (DebtRate1 - DebtRate2);
+        }
+    };
+
 
 
 }

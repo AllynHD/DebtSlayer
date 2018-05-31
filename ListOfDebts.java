@@ -23,7 +23,7 @@ public class ListOfDebts {
             } else {
                 Debt newDebt = debt.makeFinalPayment(debt);
                 debtsReturned.add(newDebt);
-                check = false;
+                check = false; //This needs to be fixed - a month with multiple bills paid off creates an infinite loop.
             }
         }
 
