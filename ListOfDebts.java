@@ -12,6 +12,7 @@ public class ListOfDebts {
 
         for (Debt debt : debtArrayList) {
             if (debt.getBalance() == 0) {
+                debtsReturned.add(debt);
                 continue;
 
             }
