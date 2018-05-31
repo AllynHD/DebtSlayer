@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class ListOfDebts {
 
-    protected HashMap<Boolean, ArrayList<Debt>> payAllDebtsOnce(ArrayList<Debt> debtArrayList) {
+    protected static HashMap<Boolean, ArrayList<Debt>> payAllDebtsOnce(ArrayList<Debt> debtArrayList) {
         Boolean check = true;
         ArrayList<Debt> debtsReturned = new ArrayList<>();
         HashMap<Boolean, ArrayList<Debt>> genius = new HashMap<>();
@@ -17,6 +17,7 @@ public class ListOfDebts {
 
             }
             else if (debt.getPayment() < debt.getBalance() * (1 + debt.getInterestRate() / 12)) {
+
                 Debt newDebt = debt.makeFullPayment(debt);
                 debtsReturned.add(newDebt);
             } else {
@@ -30,7 +31,7 @@ public class ListOfDebts {
         return genius;
     }
 
-    protected ArrayList<Debt> payAllDebtsInFull(HashMap<Boolean, ArrayList<Debt>> debtMap) {
+    protected static ArrayList<Debt> payAllDebtsInFull(HashMap<Boolean, ArrayList<Debt>> debtMap) {
         ArrayList<Debt> debtsReturned = new ArrayList<>();
         ArrayList<Debt> debtList = new ArrayList<>();
         for (ArrayList<Debt> list : debtMap.values()) {
@@ -46,12 +47,13 @@ public class ListOfDebts {
                 count++;
             }
 
-            debtList.clear();
             System.out.println(debtMap.values());
             System.out.println("-----");
 
             for (ArrayList<Debt> list : debtMap.values()) {
-                debtList.addAll(list);
+                for (int i = 0; i < list.size(); i++) {
+                    debtList.set(i, list.get(i));
+                    }
             }
         }
 

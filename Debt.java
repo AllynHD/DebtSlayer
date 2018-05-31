@@ -1,6 +1,7 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Debt {
 
@@ -10,6 +11,7 @@ public class Debt {
     private double totalPaid = 0;
     private double totalInterest = 0;
     private double interestAmount;
+    private double transfer = 0;
     //private int userId;
 
     public Debt(double balance, double interestRate, double payment) { //add userId into constructor after learning how to session
@@ -53,7 +55,18 @@ public class Debt {
     public void setInterestAmount(Debt debt) { //Can add term variability here eventually
         interestAmount = debt.getInterestRate() * debt.getBalance() / 12;}
 
-    protected Debt seeAllPayments(Debt debt) { //ArrayList<Payment> for return type
+    public double getTransfer() {
+        return transfer;
+    }
+
+    public void setTransfer(double transfer) {
+        this.transfer = transfer;
+    }
+
+
+
+
+    /*protected Debt seeAllPayments(Debt debt) { //ArrayList<Payment> for return type
         int numPayments = 0;
         while (debt.getPayment() < debt.getBalance() * (1 + debt.getInterestRate()/12)) {
             makeFullPayment (debt); //Add payment to payment list as final step, return
@@ -62,7 +75,7 @@ public class Debt {
         return debt;
 
         //return paymentList;
-    }
+    } */   //IS THIS NEEDED??
 
     protected Debt makeFullPayment(Debt debt){ //could do a "make payment" method, then call each of these where they differ.
         double newBalance;
@@ -83,6 +96,7 @@ public class Debt {
         totalInterest += interestAmount;
         totalPaid += monthlyPayment;
         this.balance = 0;
+        //growSnowball(debt);
         return debt;
     }
 
@@ -97,4 +111,17 @@ public class Debt {
                 ", interestAmount=" + interestAmount +
                 '}';
     }
+
+    public static final Comparator<Debt> DebtBalanceComparator = new Comparator<Debt>() {
+        @Override
+        public int compare(Debt d1, Debt d2) {
+            double DebtBalance1 = d1.getBalance();
+            double DebtBalance2 = d2.getBalance();
+
+            return (int) (DebtBalance1 - DebtBalance2);
+        }
+    };
+
+
+
 }

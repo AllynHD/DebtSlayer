@@ -15,18 +15,21 @@ public class Main {
         Debt debt3 = new Debt(150, .2, 175); listOfDebts.add(debt3);
         Debt debt4 = new Debt(500, .25, 130); listOfDebts.add(debt4);
 
+
+
+        ListOfDebts list = new ListOfDebts();
+        Snowball snowball = new Snowball();
+        HashMap<Boolean, ArrayList<Debt>> newMap = new HashMap<>();
+
         System.out.println(listOfDebts);
         System.out.println("****");
 
-        ListOfDebts list = new ListOfDebts();
-        HashMap<Boolean, ArrayList<Debt>> newMap = new HashMap<>();
         newMap.put(true, listOfDebts);
 
         list.payAllDebtsInFull(newMap);
 
-        for (Debt debt : listOfDebts) {
-            System.out.println(debt);
-        }
 
     }
+
+
 }
