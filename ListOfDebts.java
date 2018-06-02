@@ -1,69 +1,96 @@
 package com.company;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 public class ListOfDebts {
 
-    protected static HashMap<Boolean, ArrayList<Debt>> payAllDebtsOnce(ArrayList<Debt> debtArrayList) {
-        Boolean check = true;
-        ArrayList<Debt> debtsReturned = new ArrayList<>();
-        HashMap<Boolean, ArrayList<Debt>> genius = new HashMap<>();
+    protected static HashMap<Integer, ArrayList<Debt>> payAllDebtsOnce(HashMap<Integer, ArrayList<Debt>> hashMap) {
 
-        for (Debt debt : debtArrayList) {
+        //Take in integer that triggers end of while loop, arraylist of Debt objects to iterate through for payment
+        //need to pull that info out - so use entrySet(), then getKey and getValue - put those into new variables
+        //Key will only change if makeFinalPayment gets run, then will be put back into genius (Final HM)
+        //Value will run through forLoop
+
+        ArrayList<Debt> debtsFromIncoming = new ArrayList<>();
+        ArrayList<Debt> debtsForReturn = new ArrayList<>();
+        HashMap<Integer, ArrayList<Debt>> genius = new HashMap<>();
+        Integer[] debtList = new Integer[1];
+
+        Set<Map.Entry<Integer, ArrayList<Debt>>> debtSet = hashMap.entrySet();
+        for (Map.Entry<Integer, ArrayList<Debt>> entry : debtSet) {
+            Integer check = entry.getKey();
+            debtList[0] = check;
+            ArrayList<Debt> holder = entry.getValue();
+            debtsFromIncoming.addAll(holder);
+            break;
+        }
+
+        for (Debt debt : debtsFromIncoming) {
             if (debt.getBalance() == 0) {
-                debtsReturned.add(debt);
+                debtsForReturn.add(debt);
                 continue;
 
             }
             else if (debt.getPayment() < debt.getBalance() * (1 + debt.getInterestRate() / 12)) {
 
                 Debt newDebt = debt.makeFullPayment(debt);
-                debtsReturned.add(newDebt);
+                debtsForReturn.add(newDebt);
             } else {
                 Debt newDebt = debt.makeFinalPayment(debt);
-                debtsReturned.add(newDebt);
-                check = false; //This needs to be fixed - a month with multiple bills paid off creates an infinite loop.
+                debtsForReturn.add(newDebt);
+                debtList[0] += 1;
             }
         }
 
-        genius.put(check, debtsReturned);
+        genius.put(debtList[0], debtsForReturn);
         return genius;
     }
 
-    protected static ArrayList<Debt> payAllDebtsInFull(HashMap<Boolean, ArrayList<Debt>> debtMap) {
-        ArrayList<Debt> debtsReturned = new ArrayList<>();
+    protected static HashMap<Integer, ArrayList<Debt>> payAllDebtsInFull(HashMap<Integer, ArrayList<Debt>> debtMap) {
+        Integer[] keyArray = {0};
+        boolean check;
         ArrayList<Debt> debtList = new ArrayList<>();
-        for (ArrayList<Debt> list : debtMap.values()) {
+        //ArrayList<Debt> debtList = new ArrayList<>();
+        /*for (ArrayList<Debt> list : debtMap.values()) {
             debtList.addAll(list);
+        }*/
+        Set<Map.Entry<Integer, ArrayList<Debt>>> debtSet = debtMap.entrySet();
+        for (Map.Entry<Integer, ArrayList<Debt>> entry : debtSet) {
+            ArrayList<Debt> holder = entry.getValue();
+            debtList.addAll(holder);
+            break;
         }
-        int length = debtList.size();
-        int count = 0;
+
+
+        //int count = 0;
 
         do {
-            debtMap = payAllDebtsOnce(debtList);
-
-            if (debtMap.containsKey(false)) {
-                count++;
-            }
+            debtMap = payAllDebtsOnce(debtMap);
 
             System.out.println(debtMap.values());
             System.out.println("-----");
 
-            for (ArrayList<Debt> list : debtMap.values()) {
+            Set<Integer> keySet = debtMap.keySet();
+            keyArray = keySet.toArray(new Integer[0]);
+            Integer key = keyArray[0];
+            check = (key < debtList.size() - 1);
+            System.out.println(check);
+
+
+            /*for (ArrayList<Debt> list : debtMap.values()) {
                 for (int i = 0; i < list.size(); i++) {
                     debtList.set(i, list.get(i));
                     }
-            }
+            } */
+
         }
+        while (check);
 
-        while (count < length);
-
-        for (ArrayList<Debt> banana : debtMap.values()){
+        /*for (ArrayList<Debt> banana : debtMap.values()){
             debtsReturned.addAll(banana);
-        }
+        }*/
 
-        return debtsReturned;
+        return debtMap;
     }
 
 }

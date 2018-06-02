@@ -23,7 +23,7 @@ public class Debt {
         //add userId after learning how to session
     }
 
-    //public Debt(){
+    //public Debt(Debt original){
         //userid
     //}
 
@@ -88,7 +88,6 @@ public class Debt {
     }
 
     protected Debt makeFinalPayment(Debt debt){
-        double transfer;
         setInterestAmount(debt);
         this.balance = this.balance + interestAmount;
         transfer = this.monthlyPayment - this.balance;
@@ -111,6 +110,19 @@ public class Debt {
                 ", interestAmount=" + interestAmount +
                 '}';
     }
+
+    public Debt (Debt original) {
+        this.balance = original.balance;
+        this.interestRate = original.interestRate;
+        this.monthlyPayment = original.monthlyPayment;
+        this.totalPaid = 0;
+        this.totalInterest = 0;
+        this.interestAmount = original.interestAmount;
+        this.transfer = 0;
+
+    }
+
+
 
     public static final Comparator<Debt> DebtBalanceComparator = new Comparator<Debt>() {
         @Override
